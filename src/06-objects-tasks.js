@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* ************************************************************************************************
  *                                                                                                *
  * Plese read the following tutorial before implementing tasks:                                   *
@@ -128,45 +129,53 @@ const cssSelectorBuilder = {
   },
 
   element(value) {
-    this.checkValues(value);
+    // if (this.elements.length !== 0) this.checkElementsSequence();
+    // this.checkValues('element');
+    this.elements.push('element');
     this.selector += value;
     return this;
   },
 
   id(value) {
-    this.checkValues(value);
+    // if (this.elements[this.elements.length - 1] !== 'element' && this.elements.length !== 0) this.checkElementsSequence();
+    // this.checkValues('id');
+    this.elements.push('id');
     this.selector += `#${value}`;
     return this;
   },
 
   class(value) {
+    // if (this.elements.some((el) => el === 'attribute' || el === 'pseudo-class' || el === 'pseudo-element')) this.checkElementsSequence();
+    this.elements.push('class');
     this.selector += `.${value}`;
-    this.checkValues(value);
     return this;
   },
 
   attr(value) {
+    // if (this.elements.some((el) => el === 'pseudo-class' || el === 'pseudo-element')) this.checkElementsSequence();
+    this.elements.push('attribute');
     this.selector += `[${value}]`;
-    this.checkValues(value);
     return this;
   },
 
   pseudoClass(value) {
-    this.checkValues(value);
+    // if (this.elements.some((el) => el === 'pseudo-element')) this.checkElementsSequence();
+    this.elements.push('pseudo-class');
     this.selector += `:${value}`;
     return this;
   },
 
   pseudoElement(value) {
+    // this.checkValues('pseudo-element');
+    this.elements.push('pseudo-element');
     this.selector += `::${value}`;
-    this.checkValues(value);
     return this;
   },
 
   combine(selector1, combinator, selector2) {
-    const first = selector1.stringify();
-    const second = selector2.stringify();
-    this.selector = first + combinator + second;
+    const s1 = selector1.stringify();
+    const s2 = selector2.stringify();
+    this.selector = s1 + s2;
     return this;
   },
 
