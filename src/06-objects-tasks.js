@@ -118,39 +118,48 @@ const cssSelectorBuilder = {
   selector: '',
   elements: [],
 
+  checkValues(selector) {
+    if (this.elements.some((el) => el === selector)) throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+    this.elements.push(selector);
+  },
+
+  checkElementsSequence() {
+    throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+  },
+
   element(value) {
+    this.checkValues(value);
     this.selector += value;
-    this.elements.push(value);
     return this;
   },
 
   id(value) {
+    this.checkValues(value);
     this.selector += `#${value}`;
-    this.elements.push(value);
     return this;
   },
 
   class(value) {
     this.selector += `.${value}`;
-    this.elements.push(value);
+    this.checkValues(value);
     return this;
   },
 
   attr(value) {
     this.selector += `[${value}]`;
-    this.elements.push(value);
+    this.checkValues(value);
     return this;
   },
 
   pseudoClass(value) {
+    this.checkValues(value);
     this.selector += `:${value}`;
-    this.elements.push(value);
     return this;
   },
 
   pseudoElement(value) {
     this.selector += `::${value}`;
-    this.elements.push(value);
+    this.checkValues(value);
     return this;
   },
 
@@ -163,6 +172,7 @@ const cssSelectorBuilder = {
 
   stringify() {
     const str = this.selector;
+    this.selector = '';
     this.elements.length = 0;
     return str;
   },
