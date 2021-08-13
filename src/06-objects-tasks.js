@@ -175,7 +175,7 @@ const cssSelectorBuilder = {
   combine(selector1, combinator, selector2) {
     const s1 = selector1.stringify();
     const s2 = selector2.stringify();
-    this.selector = s1 + s2;
+    this.selector = s1 + combinator + s2;
     return this;
   },
 
